@@ -9,7 +9,7 @@ class App extends Component {
     render() {
         return (
             <nav className="navbar bg-primary">
-                <Navbar />
+                <Navbar/>
             </nav>
         );
     }

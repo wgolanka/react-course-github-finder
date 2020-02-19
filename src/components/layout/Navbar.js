@@ -4,7 +4,7 @@ class Navbar extends Component {
     render() {
         return (
             <div>
-                <i className='fab fa-github' /> {this.props.title}
+                <i className={this.props.iconClass} /> {this.props.title}
             </div>
         );
     }

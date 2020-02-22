@@ -14,9 +14,9 @@ class Navbar extends Component {
 
     render() {
         return (
-            <div>
+            <nav className="navbar bg-primary">
                 <i className={this.props.iconClass} /> {this.props.title}
-            </div>
+            </nav>
         );
     }
 }

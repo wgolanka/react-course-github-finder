@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 class UserItem extends Component {
+
     //possible way to add state but not recommended unless we need it for smth else too
     // constructor() {
     //     super();

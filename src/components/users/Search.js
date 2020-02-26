@@ -12,6 +12,8 @@ class Search extends Component {
 
     onSubmit = form => {
         form.preventDefault();
+        this.props.searchUsers(this.state.text);
+        this.setState({text: ''})
     };
 
     render() {

@@ -15,7 +15,8 @@ class App extends Component {
         users: [],
         user: {},
         loading: false,
-        alert: null
+        alert: null,
+        repos: []
     };
 
     async componentDidMount() {
@@ -47,6 +48,18 @@ class App extends Component {
         &client_secret=${process.env.REACT_APP_GITHUB_FINDER_SECRET_ID}`);
 
         this.setState({user: response.data, loading: false});
+    };
+
+    getUserRepos = async (username) => {
+        this.setState({loading: true});
+
+        const response = await axios.get(`https://api.github.com/users/${username}/repos
+        ?per_page=5
+        &sort=created:asc
+        &client_id=${process.env.REACT_APP_GITHUB_FINDER_CLIENT_ID}
+        &client_secret=${process.env.REACT_APP_GITHUB_FINDER_SECRET_ID}`);
+
+        this.setState({repos: response.data, loading: false});
     };
 
     clearUsers = () => this.setState({users: [], loading: false});

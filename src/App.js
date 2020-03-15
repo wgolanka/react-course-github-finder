@@ -33,15 +33,22 @@ class App extends Component {
         this.setState({users: response.data.items, loading: false});
     };
 
+    clearUsers = () => this.setState({users: [], loading: false });
+
     //lifecycle method, runs at certain point when component is loaded
     //required to return from class
     render() {
+        const {users, loading} = this.state;
         return (
             <div className="App">
                 <Navbar/>
-                <Search searchUsers={this.searchUsers}/>
+                <Search searchUsers={this.searchUsers}
+                        clearUsers={this.clearUsers}
+                        showClearButton={
+                            users.length > 0
+                        }/>
                 <div className="container">
-                    <Users loading={this.state.loading} users={this.state.users}/>
+                    <Users loading={loading} users={users}/>
                 </div>
             </div>
         );

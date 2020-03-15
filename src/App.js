@@ -4,12 +4,14 @@ import Navbar from "./components/layout/Navbar";
 import Users from "./components/users/Users";
 import axios from 'axios'
 import Search from "./components/users/Search";
+import Alert from "./components/layout/Alert";
 
 class App extends Component {
 
     state = {
         users: [],
-        loading: false
+        loading: false,
+        alert: null
     };
 
     async componentDidMount() {
@@ -33,7 +35,16 @@ class App extends Component {
         this.setState({users: response.data.items, loading: false});
     };
 
-    clearUsers = () => this.setState({users: [], loading: false });
+    clearUsers = () => this.setState({users: [], loading: false});
+
+    setAlert = (message, type) => {
+        this.setState(
+            {
+                alert: {message, type}
+            }
+        );
+        setTimeout(() => this.setState({alert: null}), 5000);
+    };
 
     //lifecycle method, runs at certain point when component is loaded
     //required to return from class
@@ -42,12 +53,15 @@ class App extends Component {
         return (
             <div className="App">
                 <Navbar/>
-                <Search searchUsers={this.searchUsers}
-                        clearUsers={this.clearUsers}
-                        showClearButton={
-                            users.length > 0
-                        }/>
                 <div className="container">
+                    <Alert alert={this.state.alert} />
+                    <Search searchUsers={this.searchUsers}
+                            clearUsers={this.clearUsers}
+                            showClearButton={
+                                users.length > 0
+                            }
+                            setAlert={this.setAlert}
+                    />
                     <Users loading={loading} users={users}/>
                 </div>
             </div>

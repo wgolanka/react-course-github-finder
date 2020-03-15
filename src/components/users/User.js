@@ -1,6 +1,7 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import Spinner from "../layout/Spinner";
+import {Link} from 'react-router-dom'
 
 class User extends Component {
 
@@ -36,9 +37,20 @@ class User extends Component {
         }
 
         return (
-            <div>
-                <h1>User login is {login} {name}</h1>
-            </div>
+            <Fragment>
+                <Link to={'/'} className='btn btn-light'>
+                    Back to search
+                </Link>
+
+                Hireable:{' '}
+                {hireable ? <i className="fas fa-check text-success"/>
+                    : <i className="fas fa-times-circle text-danger"/>
+                }
+                <div className=".card.grid-2">
+                    <img src={avatar_url} className="round-img" alt=""
+                         style={{width: '150px'}}/>
+                </div>
+            </Fragment>
         );
     }
 }

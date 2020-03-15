@@ -1,16 +1,36 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 
 class User extends Component {
+
+    componentDidMount() {
+        this.props.getUser(this.props.match.params.login);
+    }
+
     render() {
+        const {
+            name,
+            avatar_url,
+            location,
+            bio,
+            blog,
+            login,
+            followers,
+            following,
+            public_repos,
+            public_gists,
+            hireable
+        } = this.props.user;
+
+        const { loading } = this.props;
+
         return (
             <div>
-                User
+                <h1>User login is {login} {name}</h1>
             </div>
         );
     }
 }
 
-User.propTypes = {};
+// User.propTypes = {};
 
 export default User;

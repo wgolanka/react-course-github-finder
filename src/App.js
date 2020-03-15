@@ -53,9 +53,7 @@ class App extends Component {
     getUserRepos = async (username) => {
         this.setState({loading: true});
 
-        const response = await axios.get(`https://api.github.com/users/${username}/repos
-        ?per_page=5
-        &sort=created:asc
+        const response = await axios.get(`https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc
         &client_id=${process.env.REACT_APP_GITHUB_FINDER_CLIENT_ID}
         &client_secret=${process.env.REACT_APP_GITHUB_FINDER_SECRET_ID}`);
 
@@ -76,7 +74,7 @@ class App extends Component {
     //lifecycle method, runs at certain point when component is loaded
     //required to return from class
     render() {
-        const {users, loading, user} = this.state;
+        const {users, loading, user, repos} = this.state;
         return (
             <Router>
                 <div className="App">
@@ -103,7 +101,9 @@ class App extends Component {
                                 <User
                                     {...props}
                                     getUser={this.getUser}
+                                    getUserRepos={this.getUserRepos}
                                     user={user}
+                                    repos={repos}
                                     loading={loading}
                                 />
                             )}/>

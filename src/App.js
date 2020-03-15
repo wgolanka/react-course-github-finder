@@ -15,7 +15,8 @@ class App extends Component {
         users: [],
         user: {},
         loading: false,
-        alert: null
+        alert: null,
+        repos: []
     };
 
     async componentDidMount() {
@@ -49,6 +50,16 @@ class App extends Component {
         this.setState({user: response.data, loading: false});
     };
 
+    getUserRepos = async (username) => {
+        this.setState({loading: true});
+
+        const response = await axios.get(`https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc
+        &client_id=${process.env.REACT_APP_GITHUB_FINDER_CLIENT_ID}
+        &client_secret=${process.env.REACT_APP_GITHUB_FINDER_SECRET_ID}`);
+
+        this.setState({repos: response.data, loading: false});
+    };
+
     clearUsers = () => this.setState({users: [], loading: false});
 
     setAlert = (message, type) => {
@@ -63,7 +74,7 @@ class App extends Component {
     //lifecycle method, runs at certain point when component is loaded
     //required to return from class
     render() {
-        const {users, loading, user} = this.state;
+        const {users, loading, user, repos} = this.state;
         return (
             <Router>
                 <div className="App">
@@ -90,7 +101,9 @@ class App extends Component {
                                 <User
                                     {...props}
                                     getUser={this.getUser}
+                                    getUserRepos={this.getUserRepos}
                                     user={user}
+                                    repos={repos}
                                     loading={loading}
                                 />
                             )}/>

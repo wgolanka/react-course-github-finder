@@ -9,6 +9,8 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import About from "./components/pages/About";
 import User from "./components/users/User";
 
+import GithubState from "./context/github/githubState";
+
 const App = () => {
 
     const [users, setUsers] = useState([]);
@@ -20,7 +22,7 @@ const App = () => {
     useEffect(() => {
         setLoading(true);
 
-        async function getAllUsersResponse(){
+        async function getAllUsersResponse() {
             const response = await axios.get
             (`https://api.github.com/users?since=135' +
             '&client_id=${process.env.REACT_APP_GITHUB_FINDER_CLIENT_ID}' +
@@ -77,41 +79,43 @@ const App = () => {
     };
 
     return (
-        <Router>
-            <div className="App">
-                <Navbar/>
-                <div className="container">
-                    <Alert alert={alert}/>
-                    <Switch>
-                        <Route exact path='/' render={() => (
-                            <Fragment>
-                                <Search searchUsers={searchUsers}
-                                        clearUsers={clearUsers}
-                                        showClearButton={
-                                            users.length > 0
-                                        }
-                                        setAlert={setNewAlert}
+        <GithubState>
+            <Router>
+                <div className="App">
+                    <Navbar/>
+                    <div className="container">
+                        <Alert alert={alert}/>
+                        <Switch>
+                            <Route exact path='/' render={() => (
+                                <Fragment>
+                                    <Search searchUsers={searchUsers}
+                                            clearUsers={clearUsers}
+                                            showClearButton={
+                                                users.length > 0
+                                            }
+                                            setAlert={setNewAlert}
+                                    />
+                                    <Users loading={loading} users={users}/>
+                                </Fragment>
+                            )}/>
+
+                            <Route exact path='/about' component={About}/>
+
+                            <Route exact path='/user/:login' render={props => (
+                                <User
+                                    {...props}
+                                    getUser={getUser}
+                                    getUserRepos={getUserRepos}
+                                    user={user}
+                                    repos={repos}
+                                    loading={loading}
                                 />
-                                <Users loading={loading} users={users}/>
-                            </Fragment>
-                        )}/>
-
-                        <Route exact path='/about' component={About}/>
-
-                        <Route exact path='/user/:login' render={props => (
-                            <User
-                                {...props}
-                                getUser={getUser}
-                                getUserRepos={getUserRepos}
-                                user={user}
-                                repos={repos}
-                                loading={loading}
-                            />
-                        )}/>
-                    </Switch>
+                            )}/>
+                        </Switch>
+                    </div>
                 </div>
-            </div>
-        </Router>
+            </Router>
+        </GithubState>
     );
 }
 
